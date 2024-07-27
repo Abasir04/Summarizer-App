@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react'
 import { MdOutlineKeyboardArrowRight } from "react-icons/md"
+import { useLazyGetUrlSummaryQuery, useLazyExtractUrlTextQuery } from '../services/article'
 
 import { copy, linkIcon, loader, tick } from '../assets' 
 
@@ -10,10 +11,37 @@ const Content = () => {
     url: '',
     summary: ''
   });
+  const [allArticles, setAllArticles] = useState([])
+
+  useEffect(() => {
+    const articlesFromLocalStorage: string | null = localStorage.getItem('articles')
+    const parsedArticlesFLS = articlesFromLocalStorage ? JSON.parse(articlesFromLocalStorage) : null
+    
+    if(parsedArticlesFLS){
+      setAllArticles(parsedArticlesFLS)
+    }
+  }, [])
+  
+
+  const [getSummary ] = useLazyGetUrlSummaryQuery() 
+  {/*, { error, isLoading} */} 
 
   const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    alert('Submitted')
+    
+    const { data } = await getSummary({
+      articleUrl: article.url
+    })
+
+    if(data?.summary){
+      const newArticle = {...article, summary: data.summary}
+      const updatedAllArticle = {newArticle, ...allArticles}
+
+      setArticle(newArticle)
+      setAllArticles(updatedAllArticle)
+
+      localStorage.setItem('articles', JSON.stringify(updatedAllArticle))
+    }
   }
 
   return (
