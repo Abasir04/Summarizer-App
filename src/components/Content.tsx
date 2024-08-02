@@ -39,34 +39,22 @@ const Content = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    console.log('debug 1')
   
     const { data: summaryData } = await getSummary({ articleUrl: article.url })
     const { data: textData } = await getText({ articleUrl: article.url })
-
-    console.log('debug 2')
   
-    if (summaryData.summary) {
-
-      console.log('debug 3.1')
-
-      const newArticle = { ...article, text: textData.text, summary: summaryData.summary }
+    if (summaryData.summary && textData.md) {
+      const newArticle = { ...article, text: textData.md, summary: summaryData.summary }
       const updatedAllArticles = [newArticle, ...allArticles]
-
-      console.log('debug 3.2')
   
       setArticle(newArticle)
       setAllArticles(updatedAllArticles)
 
-      console.log('debug 3.3')
+      console.log('Article Text')
+      console.log(newArticle.text)
   
       localStorage.setItem('articles', JSON.stringify(updatedAllArticles))
-
-      console.log('debug 3.4')
     }
-
-    console.log('debug 4')
   };
   
   const handleCopy = (copyUrl: string) => {
@@ -140,9 +128,9 @@ const Content = () => {
         ) : article.summary && (
             <div className="flex flex-col gap-3">
               <h2 className='font-satoshi font-bold text-gray-600 text-xl'>
-                Article
+                Article&nbsp;
                 <span className='blue_gradient'>
-                  Summary
+                Summary
                 </span>
               </h2>
               <div className="summary_box">
