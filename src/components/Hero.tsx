@@ -7,12 +7,14 @@ const Hero = () => {
         <img 
           src={logo} 
           alt="Sum_logo" 
-          className='w-28 object-contain pb-2'/>
+          className='w-28 object-contain pb-2'
+        />
         <button 
           type="button" 
           onClick={() => window.open('http://github.com/Abasir04')}
-          className='black_btn'>
-            Github
+          className='black_btn'
+        >
+          Github
         </button>
       </nav>
 
