@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react'
 import { MdOutlineKeyboardArrowRight } from "react-icons/md"
-import { useLazyGetUrlSummaryQuery, useLazyExtractUrlTextQuery } from '../services/article'
+import { useLazyGetUrlSummaryQuery, useLazyExtractUrlTextQuery,useGetTextSummaryMutation } from '../services/article'
 
 import { copy, linkIcon, loader, tick } from '../assets' 
 

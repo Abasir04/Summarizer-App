@@ -2,6 +2,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 const rapidApiKey = import.meta.env.VITE_RAPID_API_ARTICLE_KEY
 
+export interface Article {
+  url: URL,
+  text: string,
+  summary: string
+}
+
 // Define a service using a base URL and expected endpoints
 export const articleApi = createApi({
   reducerPath: 'articleApi',
@@ -17,14 +23,19 @@ export const articleApi = createApi({
       query: (params) => `/summarize?url=${encodeURIComponent(params.articleUrl)}`}),
     extractUrlText : builder.query({
       query: (params) => `/extract?url=${encodeURIComponent(params.articleUrl)}`}),
-    getTextSummary : builder.mutation({
-      query: (newText) => ({url: '/summarize-text', method: 'POST', body: newText})})
+    getTextSummary : builder.mutation<Article, Partial<Article>>({
+      query: (newText) => ({
+        url: '/summarize-text', 
+        method: 'POST', 
+        body: newText
+      })
+    })
   })
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useLazyGetUrlSummaryQuery, useLazyExtractUrlTextQuery} = articleApi
+export const { useLazyGetUrlSummaryQuery, useLazyExtractUrlTextQuery, useGetTextSummaryMutation} = articleApi
 
 
 
